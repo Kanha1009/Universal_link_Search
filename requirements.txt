@@ -11,7 +11,7 @@ psutil
 motor
 telethon
 pymongo[srv]==3.12.3
-
+fuzzywuzzy
 
 # ====================== 💘❤👩‍💻====================================
 #    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
