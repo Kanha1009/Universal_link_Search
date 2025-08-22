@@ -30,6 +30,7 @@ ADMIN = [int(admin) if id_pattern.search(admin) else admin for admin in os.envir
 
 PORT = os.environ.get("PORT", "8080")
 BOT_SESSION_NAME = os.environ.get("BOT_SESSION_NAME", "Lazydeveloper")
+MAX_BTN = int(os.environ.get("MAX_BTN", "5"))
 
 DB_CHANNEL = int(os.environ.get("DB_CHANNEL", "-1002397221880"))
 
