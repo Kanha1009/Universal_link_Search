@@ -21,6 +21,7 @@ from lazydeveloper.lazydb import db
 from imdb import IMDb, Movie
 imdb = IMDb() 
 from fuzzywuzzy import process
+from pyrogram.errors import MessageNotModified
 
 user_files_data = {}
 files_per_page = 10
@@ -29,6 +30,86 @@ files_per_page = 10
 # ====================== 💘❤👩‍💻====================================
 #    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
 # ==================================================================
+
+@Client.on_callback_query(filters.regex(r"^next"))
+async def next_page(bot, query):
+    _, offset = query.data.split("_")
+
+    try:
+        offset = int(offset)
+    except:
+        offset = 0
+
+    user_id = query.from_user.id
+
+    # print(f"user id => {user_id}")
+    files, n_offset, total = await get_api_results(user_id,  offset=offset, filter=True)
+    # print(files)
+    # print(n_offset)
+    # print(total)
+    try:
+        n_offset = int(n_offset)
+    except:
+        n_offset = 0
+
+    if not files:
+        return
+
+    btn = [
+            [
+                InlineKeyboardButton(
+                    text=f"📂 {file[0]}",  # movie_name
+                    url=file[1]           # target_url
+                )
+            ]
+            for file in files
+        ]
+
+
+    if 0 < offset <= int(MAX_BTN):
+        off_set = 0
+    elif offset == 0:
+        off_set = None
+    else:
+        off_set = offset - int(MAX_BTN)
+
+    if n_offset == 0:
+        btn.append(
+            [InlineKeyboardButton("⋞ ʙᴀᴄᴋ", callback_data=f"next_{off_set}"),
+             InlineKeyboardButton(f"📃 Pages {math.ceil(int(offset) / int(MAX_BTN)) + 1} / {math.ceil(total / int(MAX_BTN))}",
+                                  callback_data="pages")]
+        )
+    elif off_set is None:
+        btn.append(
+            [InlineKeyboardButton(f"🗓 {math.ceil(int(offset) / int(MAX_BTN)) + 1} / {math.ceil(total / int(MAX_BTN))}", callback_data="pages"),
+             InlineKeyboardButton("ɴᴇxᴛ ⋟", callback_data=f"next_{n_offset}")])
+    else:
+        btn.append(
+            [
+                InlineKeyboardButton(
+                    "⋞ ʙᴀᴄᴋ", callback_data=f"next_{off_set}"),
+                InlineKeyboardButton(
+                    f"🗓 {math.ceil(int(offset) / int(MAX_BTN)) + 1} / {math.ceil(total / int(MAX_BTN))}", callback_data="pages"),
+                InlineKeyboardButton(
+                    "ɴᴇxᴛ ⋟", callback_data=f"next_{n_offset}")
+            ],
+        )
+    btn.append([
+        InlineKeyboardButton("How To Open Link ❓", url="https://t.me/FilmyflyLinkOpen")
+    ])
+    btn.append([
+        InlineKeyboardButton("🪅Request", url="https://t.me/+Aa-zL92bgqQ4OTll"),
+        InlineKeyboardButton("♻️Backup", url="https://t.me/AllTypeOfLinkss")
+    ])
+    btn.append([
+        InlineKeyboardButton("18+  Channel 🔞", url="https://t.me/+jt0FTlngGCc3OWI1")
+    ])
+    try:
+        reply_markup=InlineKeyboardMarkup(btn)
+        await query.message.edit_reply_markup(reply_markup)
+    except MessageNotModified:
+        pass
+    await query.answer("❤ Powered By @LazyDeveloperr ❤")
 
 @Client.on_message(filters.group & filters.text & filters.incoming & ~filters.command(['start']))
 async def message_handler(client, message):
