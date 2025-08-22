@@ -261,6 +261,7 @@ async def lazydeveloperr_spell_check(wrong_name, msg):
         movie_list.remove(movie)
         print(f"here is files i got in lazy ai spell check : {files}")
     return
+import re
 
 async def get_search_results_badAss_LazyDeveloperr(user_id, lazy_id, query, max_results=10, offset=0):
     files = []
@@ -273,19 +274,32 @@ async def get_search_results_badAss_LazyDeveloperr(user_id, lazy_id, query, max_
         if not Lazyuserbot.is_connected():
             await Lazyuserbot.start()
 
-        async for search_msg in Lazyuserbot.iter_messages(DB_CHANNEL, search=query):
+        # ✅ Build regex pattern
+        query = query.strip()
+        if not query:
+            raw_pattern = '.'
+        elif ' ' not in query:
+            raw_pattern = r'(\b|[\.\+\-_])' + query + r'(\b|[\.\+\-_])'
+        else:
+            raw_pattern = query.replace(' ', r'.*[\s\.\+\-_]')
+
+        try:
+            regex = re.compile(raw_pattern, flags=re.IGNORECASE)
+        except:
+            return [], "", 0
+
+        # ✅ First fetch some messages (rough search by first word, then refine with regex)
+        async for search_msg in Lazyuserbot.iter_messages(DB_CHANNEL, search=query.split()[0]):
             if search_msg.text:
-                # Extract URL from first line
                 match = re.match(r"(https?://[^\s]+)", search_msg.text)
                 if match:
                     target_url = match.group(1).strip()
-
-                    # Extract movie name from text in parentheses
                     movie_name_match = re.search(r"\(([^)]+)\)", search_msg.text)
                     movie_name = movie_name_match.group(1).strip() if movie_name_match else "Missing title 😂"
 
-                    # ✅ Always save as tuple
-                    files.append((movie_name, target_url))
+                    # ✅ Apply regex filter on movie_name
+                    if regex.search(movie_name):
+                        files.append((movie_name, target_url))
 
         total_results = len(files)
         next_offset = offset + max_results
@@ -297,12 +311,54 @@ async def get_search_results_badAss_LazyDeveloperr(user_id, lazy_id, query, max_
 
         # ✅ Store results into global user_files_data
         user_files_data[user_id] = files  
-        print(f"get_search_results_badAss_LazyDeveloperr=>  {files}")
+        print(f"get_search_results_badAss_LazyDeveloperr => {files}")
         return files, next_offset, total_results
 
     except Exception as e:
         print(f"Error in get_search_results_badAss_LazyDeveloperr: {e}")
         return [], "", 0
+
+# async def get_search_results_badAss_LazyDeveloperr(user_id, lazy_id, query, max_results=10, offset=0):
+#     files = []
+#     try:
+#         sessionstring = await db.get_session(OWNER_ID)
+#         if not sessionstring:
+#             return [], "", 0
+
+#         Lazyuserbot = TelegramClient(StringSession(sessionstring), API_ID, API_HASH)
+#         if not Lazyuserbot.is_connected():
+#             await Lazyuserbot.start()
+
+#         async for search_msg in Lazyuserbot.iter_messages(DB_CHANNEL, search=query):
+#             if search_msg.text:
+#                 # Extract URL from first line
+#                 match = re.match(r"(https?://[^\s]+)", search_msg.text)
+#                 if match:
+#                     target_url = match.group(1).strip()
+
+#                     # Extract movie name from text in parentheses
+#                     movie_name_match = re.search(r"\(([^)]+)\)", search_msg.text)
+#                     movie_name = movie_name_match.group(1).strip() if movie_name_match else "Missing title 😂"
+
+#                     # ✅ Always save as tuple
+#                     files.append((movie_name, target_url))
+
+#         total_results = len(files)
+#         next_offset = offset + max_results
+#         if next_offset >= total_results:
+#             next_offset = ""
+
+#         # Slice results for pagination
+#         files = files[offset:offset + max_results]
+
+#         # ✅ Store results into global user_files_data
+#         user_files_data[user_id] = files  
+#         print(f"get_search_results_badAss_LazyDeveloperr=>  {files}")
+#         return files, next_offset, total_results
+
+#     except Exception as e:
+#         print(f"Error in get_search_results_badAss_LazyDeveloperr: {e}")
+#         return [], "", 0
 
 async def display_files(message, user_id, lazydevelopr_query, offset):
     try:
