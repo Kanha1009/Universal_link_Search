@@ -110,6 +110,9 @@ async def next_page(bot, query):
     except MessageNotModified:
         pass
     await query.answer("❤ Powered By @LazyDeveloperr ❤")
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
 @Client.on_message(filters.group & filters.text & filters.incoming & ~filters.command(['start']))
 async def message_handler(client, message):
@@ -128,7 +131,10 @@ async def message_handler(client, message):
          if not queryz:
                await message.reply("Please provide a valid search query.")
                return
-         
+        # ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
+ 
          queryz = queryz.lower()
          find = queryz.split(" ")
          queryz = ""
@@ -153,12 +159,18 @@ async def message_handler(client, message):
                "Please visit again later. I’m waiting for my owner to initialize me. 😔\n\n"
                "If you know my owner, kindly ask him to initialize me. ❤️"
             )
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
          Lazyuserbot = TelegramClient(StringSession(sessionstring), API_ID, API_HASH)
          
          if not Lazyuserbot.is_connected():
             await Lazyuserbot.start()
          # await Lazyuserbot.start()
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
          search_results = []  
          try:
@@ -178,7 +190,10 @@ async def message_handler(client, message):
                      search_results.append({"movie_name": movie_name, "target_url": target_url})
                      # print(search_results)
 
-            
+            # ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
+
             if not search_results:
                miss_spelled = await lazydeveloperr_spell_check(queryz, message)
                if miss_spelled:
@@ -200,6 +215,9 @@ async def message_handler(client, message):
                 #             # Append the result as a tuple of (movie_name, target_url)
                 #             search_results.append({"movie_name": movie_name, "target_url": target_url})
                 #             # print(search_results)
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
             print(f"Search results saved for user {user_id}: {search_results}")
          except Exception as e:
@@ -226,6 +244,9 @@ async def message_handler(client, message):
             await txt.delete()
             await message.reply(no_result_text, reply_markup=btn, disable_web_page_preview=True)
             return
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
       except Exception as e:
          print(e)
@@ -253,6 +274,9 @@ async def lazydeveloperr_spell_check(wrong_name, msg):
     movie_list = await search_movie(wrong_name)
     if not movie_list:
         return
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
     # Try up to 5 closest matches
     for _ in range(5):
@@ -283,10 +307,16 @@ async def get_search_results_badAss_LazyDeveloperr(user_id, lazy_id, query, max_
         sessionstring = await db.get_session(OWNER_ID)
         if not sessionstring:
             return [], "", 0
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
         Lazyuserbot = TelegramClient(StringSession(sessionstring), API_ID, API_HASH)
         if not Lazyuserbot.is_connected():
             await Lazyuserbot.start()
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
         # ✅ Build regex pattern
         query = query.strip()
@@ -301,6 +331,9 @@ async def get_search_results_badAss_LazyDeveloperr(user_id, lazy_id, query, max_
             regex = re.compile(raw_pattern, flags=re.IGNORECASE)
         except:
             return [], "", 0
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
         # ✅ First fetch some messages (rough search by first word, then refine with regex)
         async for search_msg in Lazyuserbot.iter_messages(DB_CHANNEL, search=query.split()[0]):
@@ -364,6 +397,9 @@ async def get_search_results_badAss_LazyDeveloperr(user_id, lazy_id, query, max_
 
 #         # Slice results for pagination
 #         files = files[offset:offset + max_results]
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
 #         # ✅ Store results into global user_files_data
 #         user_files_data[user_id] = files  
@@ -377,6 +413,9 @@ async def get_search_results_badAss_LazyDeveloperr(user_id, lazy_id, query, max_
 async def display_files(message, user_id, lazydevelopr_query, offset):
     try:
         files, offset, total_results = await get_api_results(user_id, offset=0, filter=True)
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
         btn = [
             [
@@ -413,6 +452,9 @@ async def display_files(message, user_id, lazydevelopr_query, offset):
         btn.append([
             InlineKeyboardButton("18+  Channel 🔞", url="https://t.me/+jt0FTlngGCc3OWI1")
         ])
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
         await message.reply_text(
             f"<blockquote><b>👻 Here is what i found for your query <code>{lazydevelopr_query}</code></b></blockquote>",
@@ -422,12 +464,18 @@ async def display_files(message, user_id, lazydevelopr_query, offset):
         )
     except Exception as e:
         print(e)
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
 async def get_api_results(user_id, max_results=MAX_BTN, offset=0, filter=False):
     """For given query lazydeveloper returns (results, next_offset)"""
     files_data = user_files_data.get(user_id, [])
     total_results = len(files_data)
     next_offset = offset + max_results
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
     # Slice the files list according to the offset and max_results
     raw_files = files_data[offset:offset + max_results]
@@ -441,11 +489,17 @@ async def get_api_results(user_id, max_results=MAX_BTN, offset=0, filter=False):
             files.append((f[0], f[1]))
         else:
             print(f"⚠ Unknown format in files_data: {f}")
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
     if next_offset > total_results:
         next_offset = ''
 
     return files, next_offset, total_results
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
 # async def lazydeveloperr_spell_check(wrong_name, msg):
 #     async def search_movie(wrong_name):
@@ -464,6 +518,9 @@ async def get_api_results(user_id, max_results=MAX_BTN, offset=0, filter=False):
 #     print(movie)
 #     return movie
 
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
 # from rapidfuzz import process  # better than fuzzywuzzy (faster, safer)
 
