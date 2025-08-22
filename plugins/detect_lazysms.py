@@ -287,60 +287,6 @@ async def message_handler(client, message):
                print("⚠ Tried to disconnect session.\n If u r seeing this message again again then please report to  @LazyDeveloper ❤")
          return
 
-
-# async def display_files(message, user_id, lazydevelopr_query, offset):
-#     try:
-#         files, offset, total_results = await get_api_results(user_id, offset=0, filter=True)
-#         # print(f" got files => {files}")
-#         # print(f" got offset => {offset}")
-#         # print(f" got total_results => {total_results}")
-
-#         # btn = []
-#         btn = [
-#             [
-#                 # Use bracket notation
-#                 InlineKeyboardButton(
-#                     text=f"📂 {file['movie_name']}", url=file['target_url'])
-#             ]
-#             for file in files
-#         ]
-#         # btn = [
-#         #         [
-#         #             InlineKeyboardButton(
-#         #                 text=f"📂 {file['movie_name'] if isinstance(file, dict) else file[0]}",
-#         #                 url=file['target_url'] if isinstance(file, dict) else file[1]
-#         #             )
-#         #         ]
-#         #         for file in files
-#         #     ]
-#         if offset != "":
-#             btn.append(
-#                 [InlineKeyboardButton(text=f"🗓 1/{math.ceil(int(total_results) / int(MAX_BTN))}", callback_data="pages"),
-#                 InlineKeyboardButton(text="ɴᴇxᴛ ⋟", callback_data=f"next_{offset}")]
-#             )
-#         else:
-#             btn.append(
-#                 [InlineKeyboardButton(text="🗓 1/1", callback_data="pages")]
-#             )
-        
-#         # 
-#         btn.append([
-#             [
-#                InlineKeyboardButton(f"How To Open Link ❓", url=f"https://t.me/FilmyflyLinkOpen")
-#             ],
-#             [
-#                InlineKeyboardButton(f"🪅Request", url=f"https://t.me/+Aa-zL92bgqQ4OTll"),
-#                InlineKeyboardButton(f"♻️Backup", url=f"https://t.me/AllTypeOfLinkss")
-#             ],
-#             [
-#                InlineKeyboardButton(f"18+  Channel 🔞", url=f"https://t.me/+jt0FTlngGCc3OWI1")
-#             ]
-#          ])
-#         # Send the initial message to be edited on pagination
-#         await message.reply_text(f"<blockquote><b>👻 Here is what i found for your query <code>{lazydevelopr_query}</code></b></blockquote>", reply_markup=InlineKeyboardMarkup(btn), parse_mode=enums.ParseMode.HTML, disable_web_page_preview=True)
-#     except Exception as e:
-#         print(e)
-
 async def display_files(message, user_id, lazydevelopr_query, offset):
     try:
         files, offset, total_results = await get_api_results(user_id, offset=0, filter=True)
@@ -414,39 +360,48 @@ async def get_api_results(user_id, max_results=MAX_BTN, offset=0, filter=False):
 
     return files, next_offset, total_results
 
-# async def get_api_results(user_id,  max_results=MAX_BTN, offset=0, filter=False):
-#     """For given query lazydeveloper returns (results, next_offset)"""
-#     # user_id = chat_id
-#     files_data = user_files_data.get(user_id, [])
-#     print(files_data)
-#     total_results = len(files_data)
-#     print(total_results)
-#     next_offset = offset + max_results
-#     print(f"next_offset => {next_offset}")
+# async def lazydeveloperr_spell_check(wrong_name, msg):
+#     async def search_movie(wrong_name):
+#         search_results = imdb.search_movie(wrong_name)
+#         movie_list = [movie['title'] for movie in search_results]
+#         return movie_list
+#     user_id = msg.from_user.id
+#     movie_list = await search_movie(wrong_name)
+#     if not movie_list:
+#         return
+#     for _ in range(5):
+#         closest_match = process.extractOne(wrong_name, movie_list)
+#         if not closest_match or closest_match[1] <= 80:
+#             return 
+#         movie = closest_match[0]
+#     print(movie)
+#     return movie
 
-#     # Slice the files list according to the offset and max_results
-#     files = files_data[offset:offset + max_results]
-#     print(f"files => {files}")
-#     if next_offset > total_results:
-#         next_offset = ''
 
-#     return files, next_offset, total_results
+from rapidfuzz import process  # better than fuzzywuzzy (faster, safer)
 
 async def lazydeveloperr_spell_check(wrong_name, msg):
-    async def search_movie(wrong_name):
+    def search_movie(wrong_name):
         search_results = imdb.search_movie(wrong_name)
-        movie_list = [movie['title'] for movie in search_results]
+        # remove duplicates by converting to set
+        movie_list = list({movie['title'] for movie in search_results})
         return movie_list
+
     user_id = msg.from_user.id
-    movie_list = await search_movie(wrong_name)
+    movie_list = await asyncio.to_thread(search_movie, wrong_name)  # run in thread to avoid blocking
+    
     if not movie_list:
-        return
-    for _ in range(5):
-        closest_match = process.extractOne(wrong_name, movie_list)
-        if not closest_match or closest_match[1] <= 80:
-            return 
-        movie = closest_match[0]
-    print(movie)
+        return None
+
+    # Pick the best match only once
+    closest_match = process.extractOne(wrong_name, movie_list, score_cutoff=70)  
+    # lowered to 70 → more tolerance, still safe
+
+    if not closest_match:
+        return None
+
+    movie = closest_match[0]
+    print(f"✨ Spell-corrected '{wrong_name}' → '{movie}'")
     return movie
 
 # ====================== 💘❤👩‍💻====================================
