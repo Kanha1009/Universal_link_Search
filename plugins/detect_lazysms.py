@@ -189,10 +189,6 @@ async def message_handler(client, message):
             await message.reply(no_result_text, reply_markup=btn, disable_web_page_preview=True)
             return
 
-# ====================== 💘❤👩‍💻====================================
-#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
-# ==================================================================
-
       except Exception as e:
          print(e)
          if txt:
@@ -219,15 +215,23 @@ async def display_files(message, user_id, lazydevelopr_query, offset):
         # print(f" got total_results => {total_results}")
 
         # btn = []
+        # btn = [
+        #     [
+        #         # Use bracket notation
+        #         InlineKeyboardButton(
+        #             text=f"📂 {file['movie_name']}", url=file['target_url'])
+        #     ]
+        #     for file in files
+        # ]
         btn = [
-            [
-                # Use bracket notation
-                InlineKeyboardButton(
-                    text=f"📂 {file['movie_name']}", url=file['target_url'])
+                [
+                    InlineKeyboardButton(
+                        text=f"📂 {file['movie_name'] if isinstance(file, dict) else file[0]}",
+                        url=file['target_url'] if isinstance(file, dict) else file[1]
+                    )
+                ]
+                for file in files
             ]
-            for file in files
-        ]
-
         if offset != "":
             btn.append(
                 [InlineKeyboardButton(text=f"🗓 1/{math.ceil(int(total_results) / int(MAX_BTN))}", callback_data="pages"),
