@@ -147,8 +147,22 @@ async def message_handler(client, message):
                if miss_spelled:
                   await txt.delete()
                   queryz = miss_spelled
-                  await display_files(message, user_id, queryz, offset=0) 
+                  # Search for messages containing the query term in the database channel #limit=5
+                  async for search_msg in Lazyuserbot.iter_messages(DB_CHANNEL, search=queryz):
+                    if search_msg.text:
+                        # Look for a URL in the first line
+                        match = re.match(r"(https?://[^\s]+)", search_msg.text)
+                        if match:
+                            target_url = match.group(1).strip()  # Extract the URL
 
+                            # Extract the movie name from text in parentheses ()
+                            movie_name_match = re.search(r"\(([^)]+)\)", search_msg.text)
+                            movie_name = movie_name_match.group(1).strip() if movie_name_match else "Missing title 😂"
+
+                            # Append the result as a tuple of (movie_name, target_url)
+                            search_results.append({"movie_name": movie_name, "target_url": target_url})
+                            # print(search_results)
+                  
             user_files_data[user_id] = search_results
             print(f"Search results saved for user {user_id}: {search_results}")
          except Exception as e:
@@ -178,58 +192,6 @@ async def message_handler(client, message):
 # ====================== 💘❤👩‍💻====================================
 #    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
 # ==================================================================
-
-         # Generate and send result message
-#=================================================================================== 
-#==========   THIS IS FOR SEARCH LOGIC 1 👇   =========================================
-#=================================================================================== 
-         #   result_message = "\n\n".join(
-         #       [
-         #           f"✅ **Result {i + 1}:**\n{search_msg.text or 'Media/Caption Message'}"
-         #           for i, search_msg in enumerate(search_results)
-         #       ]
-         #   )
-         # result_message = "\n\n".join(
-         #       [
-         #          f"✅ **Result {i + 1}:**\n[{match.group(2)}]({match.group(1)})"
-         #          for i, search_msg in enumerate(search_results)
-         #          if (match := re.match(r"(https?://[^\s]+) \((.+?)\)", search_msg.text))
-         #       ]
-         #    )
-         # result_message = "\n\n".join([f"✅ **Result {i + 1}:**\n{url}" for i, url in enumerate(search_results)])
-         
-#=================================================================================== 
-#=================================================================================== 
-#===================================================================================
- 
-# ====================== 💘❤👩‍💻====================================
-#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
-# ==================================================================
-
-         # result_message = "\n".join([f"<blockquote>📂 <b>{movie_name}</b>\n<b>Link:</b> {target_url}</blockquote>" for movie_name, target_url in search_results])
-         # print('got result')
-         # response = (
-         #    f"**🤞Search Results for '{queryz}':**\n\n"
-         #    f"{result_message}\n\n"
-         # )
-         # reply_button = InlineKeyboardMarkup([
-         #    [
-         #       InlineKeyboardButton(f"How To Open Link ❓", url=f"https://t.me/FilmyflyLinkOpen")
-         #    ],
-         #    [
-         #       InlineKeyboardButton(f"🪅Request", url=f"https://t.me/+Aa-zL92bgqQ4OTll"),
-         #       InlineKeyboardButton(f"♻️Backup", url=f"https://t.me/AllTypeOfLinkss")
-         #    ],
-         #    [
-         #       InlineKeyboardButton(f"18+  Channel 🔞", url=f"https://t.me/+jt0FTlngGCc3OWI1")
-         #    ]
-         # ])
-         # await txt.delete()
-         # result = await message.reply(response, reply_markup=reply_button, disable_web_page_preview=True)
-
-         # Auto-delete results after a delay
-         # await asyncio.sleep(AUTO_DELETE_TIME)
-         # await result.delete()
 
       except Exception as e:
          print(e)
