@@ -207,77 +207,149 @@ async def message_handler(client, message):
          return
 
 
+# async def display_files(message, user_id, lazydevelopr_query, offset):
+#     try:
+#         files, offset, total_results = await get_api_results(user_id, offset=0, filter=True)
+#         # print(f" got files => {files}")
+#         # print(f" got offset => {offset}")
+#         # print(f" got total_results => {total_results}")
+
+#         # btn = []
+#         btn = [
+#             [
+#                 # Use bracket notation
+#                 InlineKeyboardButton(
+#                     text=f"📂 {file['movie_name']}", url=file['target_url'])
+#             ]
+#             for file in files
+#         ]
+#         # btn = [
+#         #         [
+#         #             InlineKeyboardButton(
+#         #                 text=f"📂 {file['movie_name'] if isinstance(file, dict) else file[0]}",
+#         #                 url=file['target_url'] if isinstance(file, dict) else file[1]
+#         #             )
+#         #         ]
+#         #         for file in files
+#         #     ]
+#         if offset != "":
+#             btn.append(
+#                 [InlineKeyboardButton(text=f"🗓 1/{math.ceil(int(total_results) / int(MAX_BTN))}", callback_data="pages"),
+#                 InlineKeyboardButton(text="ɴᴇxᴛ ⋟", callback_data=f"next_{offset}")]
+#             )
+#         else:
+#             btn.append(
+#                 [InlineKeyboardButton(text="🗓 1/1", callback_data="pages")]
+#             )
+        
+#         # 
+#         btn.append([
+#             [
+#                InlineKeyboardButton(f"How To Open Link ❓", url=f"https://t.me/FilmyflyLinkOpen")
+#             ],
+#             [
+#                InlineKeyboardButton(f"🪅Request", url=f"https://t.me/+Aa-zL92bgqQ4OTll"),
+#                InlineKeyboardButton(f"♻️Backup", url=f"https://t.me/AllTypeOfLinkss")
+#             ],
+#             [
+#                InlineKeyboardButton(f"18+  Channel 🔞", url=f"https://t.me/+jt0FTlngGCc3OWI1")
+#             ]
+#          ])
+#         # Send the initial message to be edited on pagination
+#         await message.reply_text(f"<blockquote><b>👻 Here is what i found for your query <code>{lazydevelopr_query}</code></b></blockquote>", reply_markup=InlineKeyboardMarkup(btn), parse_mode=enums.ParseMode.HTML, disable_web_page_preview=True)
+#     except Exception as e:
+#         print(e)
+
 async def display_files(message, user_id, lazydevelopr_query, offset):
     try:
         files, offset, total_results = await get_api_results(user_id, offset=0, filter=True)
-        # print(f" got files => {files}")
-        # print(f" got offset => {offset}")
-        # print(f" got total_results => {total_results}")
 
-        # btn = []
-        # btn = [
-        #     [
-        #         # Use bracket notation
-        #         InlineKeyboardButton(
-        #             text=f"📂 {file['movie_name']}", url=file['target_url'])
-        #     ]
-        #     for file in files
-        # ]
         btn = [
-                [
-                    InlineKeyboardButton(
-                        text=f"📂 {file['movie_name'] if isinstance(file, dict) else file[0]}",
-                        url=file['target_url'] if isinstance(file, dict) else file[1]
-                    )
-                ]
-                for file in files
+            [
+                InlineKeyboardButton(
+                    text=f"📂 {file[0]}",  # movie_name
+                    url=file[1]           # target_url
+                )
             ]
+            for file in files
+        ]
+
         if offset != "":
             btn.append(
-                [InlineKeyboardButton(text=f"🗓 1/{math.ceil(int(total_results) / int(MAX_BTN))}", callback_data="pages"),
-                InlineKeyboardButton(text="ɴᴇxᴛ ⋟", callback_data=f"next_{offset}")]
+                [
+                    InlineKeyboardButton(
+                        text=f"🗓 1/{math.ceil(int(total_results) / int(MAX_BTN))}",
+                        callback_data="pages"
+                    ),
+                    InlineKeyboardButton(
+                        text="ɴᴇxᴛ ⋟", callback_data=f"next_{offset}"
+                    )
+                ]
             )
         else:
-            btn.append(
-                [InlineKeyboardButton(text="🗓 1/1", callback_data="pages")]
-            )
-        
-        # 
+            btn.append([InlineKeyboardButton(text="🗓 1/1", callback_data="pages")])
+
         btn.append([
-            [
-               InlineKeyboardButton(f"How To Open Link ❓", url=f"https://t.me/FilmyflyLinkOpen")
-            ],
-            [
-               InlineKeyboardButton(f"🪅Request", url=f"https://t.me/+Aa-zL92bgqQ4OTll"),
-               InlineKeyboardButton(f"♻️Backup", url=f"https://t.me/AllTypeOfLinkss")
-            ],
-            [
-               InlineKeyboardButton(f"18+  Channel 🔞", url=f"https://t.me/+jt0FTlngGCc3OWI1")
-            ]
-         ])
-        # Send the initial message to be edited on pagination
-        await message.reply_text(f"<blockquote><b>👻 Here is what i found for your query <code>{lazydevelopr_query}</code></b></blockquote>", reply_markup=InlineKeyboardMarkup(btn), parse_mode=enums.ParseMode.HTML, disable_web_page_preview=True)
+            InlineKeyboardButton("How To Open Link ❓", url="https://t.me/FilmyflyLinkOpen")
+        ])
+        btn.append([
+            InlineKeyboardButton("🪅Request", url="https://t.me/+Aa-zL92bgqQ4OTll"),
+            InlineKeyboardButton("♻️Backup", url="https://t.me/AllTypeOfLinkss")
+        ])
+        btn.append([
+            InlineKeyboardButton("18+  Channel 🔞", url="https://t.me/+jt0FTlngGCc3OWI1")
+        ])
+
+        await message.reply_text(
+            f"<blockquote><b>👻 Here is what i found for your query <code>{lazydevelopr_query}</code></b></blockquote>",
+            reply_markup=InlineKeyboardMarkup(btn),
+            parse_mode=enums.ParseMode.HTML,
+            disable_web_page_preview=True
+        )
     except Exception as e:
         print(e)
 
-
-async def get_api_results(user_id,  max_results=MAX_BTN, offset=0, filter=False):
+async def get_api_results(user_id, max_results=MAX_BTN, offset=0, filter=False):
     """For given query lazydeveloper returns (results, next_offset)"""
-    # user_id = chat_id
     files_data = user_files_data.get(user_id, [])
-    print(files_data)
     total_results = len(files_data)
-    print(total_results)
     next_offset = offset + max_results
-    print(f"next_offset => {next_offset}")
 
     # Slice the files list according to the offset and max_results
-    files = files_data[offset:offset + max_results]
-    print(f"files => {files}")
+    raw_files = files_data[offset:offset + max_results]
+
+    # ✅ Force everything into tuple format (movie_name, target_url)
+    files = []
+    for f in raw_files:
+        if isinstance(f, dict):
+            files.append((f.get("movie_name", "Unknown"), f.get("target_url", "")))
+        elif isinstance(f, (tuple, list)) and len(f) >= 2:
+            files.append((f[0], f[1]))
+        else:
+            print(f"⚠ Unknown format in files_data: {f}")
+
     if next_offset > total_results:
         next_offset = ''
 
     return files, next_offset, total_results
+
+# async def get_api_results(user_id,  max_results=MAX_BTN, offset=0, filter=False):
+#     """For given query lazydeveloper returns (results, next_offset)"""
+#     # user_id = chat_id
+#     files_data = user_files_data.get(user_id, [])
+#     print(files_data)
+#     total_results = len(files_data)
+#     print(total_results)
+#     next_offset = offset + max_results
+#     print(f"next_offset => {next_offset}")
+
+#     # Slice the files list according to the offset and max_results
+#     files = files_data[offset:offset + max_results]
+#     print(f"files => {files}")
+#     if next_offset > total_results:
+#         next_offset = ''
+
+#     return files, next_offset, total_results
 
 async def lazydeveloperr_spell_check(wrong_name, msg):
     async def search_movie(wrong_name):
