@@ -41,7 +41,7 @@ async def next_page(bot, query):
         offset = 0
 
     user_id = query.from_user.id
-
+    
     # print(f"user id => {user_id}")
     files, n_offset, total = await get_api_results(user_id,  offset=offset, filter=True)
     # print(files)
@@ -129,6 +129,20 @@ async def message_handler(client, message):
                await message.reply("Please provide a valid search query.")
                return
          
+         queryz = queryz.lower()
+         find = queryz.split(" ")
+         queryz = ""
+         removes = ["in", "series", "full", "horror", "thriller", "mystery", "print", "file", "2k", "4k", "2004", "2024", "2025", "2020", "2021", "2022", "2023","new","movies", "the", "a", "an", "480", "480p", "720p", "720", "1080p", "1080", "hindi","english", "eng", "hin","kor","korean" ]
+         for x in find:
+             if x in removes:
+                 continue
+             else:
+                 queryz = queryz + x + " "
+                 # print(f"New search is : {search}")
+         queryz = re.sub(r"\b(pl(i|e)*?(s|z+|ease|se|ese|(e+)s(e)?)|((send|snd|giv(e)?|gib)(\sme)?)|movie(s)?|new|latest|bro|bruh|broh|helo|that|find|dubbed|link|venum|iruka|pannunga|pannungga|anuppunga|anupunga|anuppungga|anupungga|film|undo|kitti|kitty|tharu|kittumo|kittum|movie|any(one)|with\ssubtitle(s)?)", "", search, flags=re.IGNORECASE)
+         queryz = re.sub(r"\s+", " ", queryz).strip()
+         queryz = queryz.replace("-", " ")
+         queryz = queryz.replace(":","")         
          # print(f"Search Query: {queryz}")
          await asyncio.sleep(1)
          sessionstring = await db.get_session(OWNER_ID)
