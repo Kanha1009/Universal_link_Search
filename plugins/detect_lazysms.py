@@ -235,15 +235,14 @@ async def message_handler(client, message):
 # ====================== 💘❤👩‍💻====================================
 #    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
 # ==================================================================
-      
+        
       except Exception as e:
          print(e)
          if txt:
                await txt.delete()
-         if args:
-             asyncio.create_task(delete_lazy_msg(message))
          await message.reply("I couldn't process your request. Please try again later.")
       finally:
+         asyncio.create_task(delete_lazy_msg(message))
          await asyncio.sleep(2)
          # tried to avoid overhead  - session load !
          await Lazyuserbot.disconnect()
