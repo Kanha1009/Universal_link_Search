@@ -34,6 +34,7 @@ MAX_BTN = int(os.environ.get("MAX_BTN", "5"))
 
 DB_CHANNEL = int(os.environ.get("DB_CHANNEL", "-1002397221880"))
 
+SELF_DELETE_SECONDS = int(os.environ.get("SELF_DELETE_SECONDS", "300"))
 # ====================== 💘❤👩‍💻====================================
 #    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
 # ==================================================================
