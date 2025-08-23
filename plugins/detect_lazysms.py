@@ -25,8 +25,7 @@ from pyrogram.errors import MessageNotModified
 
 user_files_data = {}
 files_per_page = 10
-
-
+should_delete = []
 # ====================== 💘❤👩‍💻====================================
 #    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
 # ==================================================================
@@ -41,7 +40,7 @@ async def next_page(bot, query):
         offset = 0
 
     user_id = query.from_user.id
-
+    
     # print(f"user id => {user_id}")
     files, n_offset, total = await get_api_results(user_id,  offset=offset, filter=True)
     # print(files)
@@ -110,6 +109,9 @@ async def next_page(bot, query):
     except MessageNotModified:
         pass
     await query.answer("❤ Powered By @LazyDeveloperr ❤")
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
 @Client.on_message(filters.group & filters.text & filters.incoming & ~filters.command(['start']))
 async def message_handler(client, message):
@@ -128,7 +130,24 @@ async def message_handler(client, message):
          if not queryz:
                await message.reply("Please provide a valid search query.")
                return
-         
+        # ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
+ 
+         queryz = queryz.lower()
+         find = queryz.split(" ")
+         queryz = ""
+         removes = ["in", "series", "full", "horror", "thriller", "mystery", "print", "file", "2k", "4k", "2004", "2024", "2025", "2020", "2021", "2022", "2023","new","movies", "the", "a", "an", "480", "480p", "720p", "720", "1080p", "1080", "hindi","english", "eng", "hin","kor","korean" ]
+         for x in find:
+             if x in removes:
+                 continue
+             else:
+                 queryz = queryz + x + " "
+                 # print(f"New search is : {search}")
+         queryz = re.sub(r"\b(pl(i|e)*?(s|z+|ease|se|ese|(e+)s(e)?)|((send|snd|giv(e)?|gib)(\sme)?)|movie(s)?|new|latest|bro|bruh|broh|helo|that|find|dubbed|link|venum|iruka|pannunga|pannungga|anuppunga|anupunga|anuppungga|anupungga|film|undo|kitti|kitty|tharu|kittumo|kittum|movie|any(one)|with\ssubtitle(s)?)", "", queryz, flags=re.IGNORECASE)
+         queryz = re.sub(r"\s+", " ", queryz).strip()
+         queryz = queryz.replace("-", " ")
+         queryz = queryz.replace(":","")         
          # print(f"Search Query: {queryz}")
          await asyncio.sleep(1)
          sessionstring = await db.get_session(OWNER_ID)
@@ -139,12 +158,18 @@ async def message_handler(client, message):
                "Please visit again later. I’m waiting for my owner to initialize me. 😔\n\n"
                "If you know my owner, kindly ask him to initialize me. ❤️"
             )
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
          Lazyuserbot = TelegramClient(StringSession(sessionstring), API_ID, API_HASH)
          
          if not Lazyuserbot.is_connected():
             await Lazyuserbot.start()
          # await Lazyuserbot.start()
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
          search_results = []  
          try:
@@ -164,7 +189,10 @@ async def message_handler(client, message):
                      search_results.append({"movie_name": movie_name, "target_url": target_url})
                      # print(search_results)
 
-            
+            # ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
+
             if not search_results:
                miss_spelled = await lazydeveloperr_spell_check(queryz, message)
                if miss_spelled:
@@ -186,6 +214,9 @@ async def message_handler(client, message):
                 #             # Append the result as a tuple of (movie_name, target_url)
                 #             search_results.append({"movie_name": movie_name, "target_url": target_url})
                 #             # print(search_results)
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
             print(f"Search results saved for user {user_id}: {search_results}")
          except Exception as e:
@@ -212,6 +243,9 @@ async def message_handler(client, message):
             await txt.delete()
             await message.reply(no_result_text, reply_markup=btn, disable_web_page_preview=True)
             return
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
       except Exception as e:
          print(e)
@@ -239,6 +273,9 @@ async def lazydeveloperr_spell_check(wrong_name, msg):
     movie_list = await search_movie(wrong_name)
     if not movie_list:
         return
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
     # Try up to 5 closest matches
     for _ in range(5):
@@ -261,6 +298,7 @@ async def lazydeveloperr_spell_check(wrong_name, msg):
         movie_list.remove(movie)
         print(f"here is files i got in lazy ai spell check : {files}")
     return
+import re
 
 async def get_search_results_badAss_LazyDeveloperr(user_id, lazy_id, query, max_results=10, offset=0):
     files = []
@@ -268,24 +306,46 @@ async def get_search_results_badAss_LazyDeveloperr(user_id, lazy_id, query, max_
         sessionstring = await db.get_session(OWNER_ID)
         if not sessionstring:
             return [], "", 0
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
         Lazyuserbot = TelegramClient(StringSession(sessionstring), API_ID, API_HASH)
         if not Lazyuserbot.is_connected():
             await Lazyuserbot.start()
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
-        async for search_msg in Lazyuserbot.iter_messages(DB_CHANNEL, search=query):
+        # ✅ Build regex pattern
+        query = query.strip()
+        if not query:
+            raw_pattern = '.'
+        elif ' ' not in query:
+            raw_pattern = r'(\b|[\.\+\-_])' + query + r'(\b|[\.\+\-_])'
+        else:
+            raw_pattern = query.replace(' ', r'.*[\s\.\+\-_]')
+
+        try:
+            regex = re.compile(raw_pattern, flags=re.IGNORECASE)
+        except:
+            return [], "", 0
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
+
+        # ✅ First fetch some messages (rough search by first word, then refine with regex)
+        async for search_msg in Lazyuserbot.iter_messages(DB_CHANNEL, search=query.split()[0]):
             if search_msg.text:
-                # Extract URL from first line
                 match = re.match(r"(https?://[^\s]+)", search_msg.text)
                 if match:
                     target_url = match.group(1).strip()
-
-                    # Extract movie name from text in parentheses
                     movie_name_match = re.search(r"\(([^)]+)\)", search_msg.text)
                     movie_name = movie_name_match.group(1).strip() if movie_name_match else "Missing title 😂"
 
-                    # ✅ Always save as tuple
-                    files.append((movie_name, target_url))
+                    # ✅ Apply regex filter on movie_name
+                    if regex.search(movie_name):
+                        files.append((movie_name, target_url))
 
         total_results = len(files)
         next_offset = offset + max_results
@@ -297,16 +357,71 @@ async def get_search_results_badAss_LazyDeveloperr(user_id, lazy_id, query, max_
 
         # ✅ Store results into global user_files_data
         user_files_data[user_id] = files  
-        print(f"get_search_results_badAss_LazyDeveloperr=>  {files}")
+        print(f"get_search_results_badAss_LazyDeveloperr => {files}")
         return files, next_offset, total_results
 
     except Exception as e:
         print(f"Error in get_search_results_badAss_LazyDeveloperr: {e}")
         return [], "", 0
 
+# async def get_search_results_badAss_LazyDeveloperr(user_id, lazy_id, query, max_results=10, offset=0):
+#     files = []
+#     try:
+#         sessionstring = await db.get_session(OWNER_ID)
+#         if not sessionstring:
+#             return [], "", 0
+
+#         Lazyuserbot = TelegramClient(StringSession(sessionstring), API_ID, API_HASH)
+#         if not Lazyuserbot.is_connected():
+#             await Lazyuserbot.start()
+
+#         async for search_msg in Lazyuserbot.iter_messages(DB_CHANNEL, search=query):
+#             if search_msg.text:
+#                 # Extract URL from first line
+#                 match = re.match(r"(https?://[^\s]+)", search_msg.text)
+#                 if match:
+#                     target_url = match.group(1).strip()
+
+#                     # Extract movie name from text in parentheses
+#                     movie_name_match = re.search(r"\(([^)]+)\)", search_msg.text)
+#                     movie_name = movie_name_match.group(1).strip() if movie_name_match else "Missing title 😂"
+
+#                     # ✅ Always save as tuple
+#                     files.append((movie_name, target_url))
+
+#         total_results = len(files)
+#         next_offset = offset + max_results
+#         if next_offset >= total_results:
+#             next_offset = ""
+
+#         # Slice results for pagination
+#         files = files[offset:offset + max_results]
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
+
+#         # ✅ Store results into global user_files_data
+#         user_files_data[user_id] = files  
+#         print(f"get_search_results_badAss_LazyDeveloperr=>  {files}")
+#         return files, next_offset, total_results
+
+#     except Exception as e:
+#         print(f"Error in get_search_results_badAss_LazyDeveloperr: {e}")
+#         return [], "", 0
+async def delete_lazy_msg(msg):
+    try:
+        await asyncio.sleep(600)
+        await msg.delete()
+    except Exception as LazyDeveloperr:
+        print(LazyDeveloperr)
+        
 async def display_files(message, user_id, lazydevelopr_query, offset):
     try:
+        
         files, offset, total_results = await get_api_results(user_id, offset=0, filter=True)
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
         btn = [
             [
@@ -343,21 +458,33 @@ async def display_files(message, user_id, lazydevelopr_query, offset):
         btn.append([
             InlineKeyboardButton("18+  Channel 🔞", url="https://t.me/+jt0FTlngGCc3OWI1")
         ])
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
-        await message.reply_text(
+        lazymsg = await message.reply_text(
             f"<blockquote><b>👻 Here is what i found for your query <code>{lazydevelopr_query}</code></b></blockquote>",
             reply_markup=InlineKeyboardMarkup(btn),
             parse_mode=enums.ParseMode.HTML,
             disable_web_page_preview=True
         )
+        asyncio.create_task(delete_lazy_msg(lazymsg))
     except Exception as e:
         print(e)
+
+
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
 async def get_api_results(user_id, max_results=MAX_BTN, offset=0, filter=False):
     """For given query lazydeveloper returns (results, next_offset)"""
     files_data = user_files_data.get(user_id, [])
     total_results = len(files_data)
     next_offset = offset + max_results
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
     # Slice the files list according to the offset and max_results
     raw_files = files_data[offset:offset + max_results]
@@ -371,11 +498,17 @@ async def get_api_results(user_id, max_results=MAX_BTN, offset=0, filter=False):
             files.append((f[0], f[1]))
         else:
             print(f"⚠ Unknown format in files_data: {f}")
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
     if next_offset > total_results:
         next_offset = ''
 
     return files, next_offset, total_results
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
 # async def lazydeveloperr_spell_check(wrong_name, msg):
 #     async def search_movie(wrong_name):
@@ -394,6 +527,9 @@ async def get_api_results(user_id, max_results=MAX_BTN, offset=0, filter=False):
 #     print(movie)
 #     return movie
 
+# ====================== 💘❤👩‍💻====================================
+#    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
+# ==================================================================
 
 # from rapidfuzz import process  # better than fuzzywuzzy (faster, safer)
 
