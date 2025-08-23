@@ -241,7 +241,7 @@ async def message_handler(client, message):
          if txt:
                await txt.delete()
          if args:
-             asyncio.create_task(delete_lazy_msg(message.text))
+             asyncio.create_task(delete_lazy_msg(message))
          await message.reply("I couldn't process your request. Please try again later.")
       finally:
          await asyncio.sleep(2)
