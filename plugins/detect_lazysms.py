@@ -230,7 +230,8 @@ async def message_handler(client, message):
                 [InlineKeyboardButton("🔎 Check On Google 🔍", url=link)]
             ])
             await txt.delete()
-            await message.reply(no_result_text, reply_markup=btn, disable_web_page_preview=True)
+            no_result = await message.reply(no_result_text, reply_markup=btn, disable_web_page_preview=True)
+            asyncio.create_task(delete_lazy_msg(no_result))
             return
 # ====================== 💘❤👩‍💻====================================
 #    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
