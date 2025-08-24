@@ -94,14 +94,14 @@ async def next_page(bot, query):
             ],
         )
     btn.append([
-        InlineKeyboardButton("How To Open Link ❓", url="https://t.me/FilmyflyLinkOpen")
+        InlineKeyboardButton("How To Open Link ❓", url="https://t.me/Howtopenlinksss")
     ])
     btn.append([
-        InlineKeyboardButton("🪅Request", url="https://t.me/+Aa-zL92bgqQ4OTll"),
-        InlineKeyboardButton("♻️Backup", url="https://t.me/AllTypeOfLinkss")
+        InlineKeyboardButton("🪅Request", url="https://t.me/KSMovieRequest"),
+        InlineKeyboardButton("♻️Backup", url="https://t.me/ksxplain12")
     ])
     btn.append([
-        InlineKeyboardButton("18+  Channel 🔞", url="https://t.me/+jt0FTlngGCc3OWI1")
+        InlineKeyboardButton("18+  Channel 🔞", url="https://t.me/+cvawyNXo-5FiZjk1")
     ])
     try:
         reply_markup=InlineKeyboardMarkup(btn)
@@ -417,14 +417,14 @@ async def display_files(message, user_id, lazydevelopr_query, offset):
             btn.append([InlineKeyboardButton(text="🗓 1/1", callback_data="pages")])
 
         btn.append([
-            InlineKeyboardButton("How To Open Link ❓", url="https://t.me/FilmyflyLinkOpen")
+            InlineKeyboardButton("How To Open Link ❓", url="https://t.me/Howtopenlinksss")
         ])
         btn.append([
-            InlineKeyboardButton("🪅Request", url="https://t.me/+Aa-zL92bgqQ4OTll"),
-            InlineKeyboardButton("♻️Backup", url="https://t.me/AllTypeOfLinkss")
+            InlineKeyboardButton("🪅Request", url="https://t.me/KSMovieRequest"),
+            InlineKeyboardButton("♻️Backup", url="https://t.me/ksxplain12")
         ])
         btn.append([
-            InlineKeyboardButton("18+  Channel 🔞", url="https://t.me/+jt0FTlngGCc3OWI1")
+            InlineKeyboardButton("18+  Channel 🔞", url="https://t.me/+cvawyNXo-5FiZjk1")
         ])
 # ====================== 💘❤👩‍💻====================================
 #    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
@@ -587,3 +587,4 @@ async def get_api_results(user_id, max_results=MAX_BTN, offset=0, filter=False):
 # ====================== 💘❤👩‍💻====================================
 #    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
 # ==================================================================
+
