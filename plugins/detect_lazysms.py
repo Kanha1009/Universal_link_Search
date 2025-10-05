@@ -97,7 +97,7 @@ async def next_page(bot, query):
         InlineKeyboardButton("How To Open Link ❓", url="https://t.me/Howtopenlinksss")
     ])
     btn.append([
-        InlineKeyboardButton("🪅Request", url="https://forms.gle/m3YMo4dqurguHBHr9"),
+        InlineKeyboardButton("🪅Request", url="https://t.me/kslinkupdate1"),
         InlineKeyboardButton("♻️Backup", url="https://t.me/ksxplain12")
     ])
     btn.append([
@@ -420,7 +420,7 @@ async def display_files(message, user_id, lazydevelopr_query, offset):
             InlineKeyboardButton("How To Open Link ❓", url="https://t.me/Howtopenlinksss")
         ])
         btn.append([
-            InlineKeyboardButton("🪅Request", url="https://forms.gle/m3YMo4dqurguHBHr9"),
+            InlineKeyboardButton("🪅Request", url="https://t.me/kslinkupdate1"),
             InlineKeyboardButton("♻️Backup", url="https://t.me/ksxplain12")
         ])
         btn.append([
@@ -587,6 +587,7 @@ async def get_api_results(user_id, max_results=MAX_BTN, offset=0, filter=False):
 # ====================== 💘❤👩‍💻====================================
 #    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
 # ==================================================================
+
 
 
 
