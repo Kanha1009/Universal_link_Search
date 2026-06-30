@@ -11,7 +11,7 @@ psutil
 motor
 telethon
 pymongo[srv]==3.12.3
-cinemagoer
+imdbpy==2022.7.9
 
 
 # ====================== 💘❤👩‍💻====================================
