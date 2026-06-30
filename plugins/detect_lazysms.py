@@ -18,7 +18,7 @@ from telethon import TelegramClient
 from telethon.sessions import StringSession
 from lazydeveloper.lazydb import db
 # latest
-from imdb import IMDb, Movie
+from imdb import IMDb
 imdb = IMDb() 
 from fuzzywuzzy import process
 from pyrogram.errors import MessageNotModified
