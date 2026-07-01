@@ -15,9 +15,9 @@ requests
 telethon
 #pymongo[srv]==3.12.3
 pymongo==4.9.2
-python-Levenshtein
 cinemagoer==2023.5.1
 fuzzywuzzy
+python-Levenshtein
 # ====================== 💘❤👩‍💻====================================
 #    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
 # ==================================================================
