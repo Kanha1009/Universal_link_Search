@@ -11,8 +11,8 @@ psutil
 motor
 telethon
 pymongo[srv]==3.12.3
-
-
+python-Levenshtein
+git+https://github.com/cinemagoer/cinemagoer
 
 # ====================== 💘❤👩‍💻====================================
 #    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
