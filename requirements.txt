@@ -12,7 +12,7 @@ motor
 telethon
 pymongo[srv]==3.12.3
 fuzzywuzzy
-git+https://github.com/cinemagoer/cinemagoer
+cinemagoer==2023.5.1
 rapidfuzz
 # ====================== 💘❤👩‍💻====================================
 #    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
