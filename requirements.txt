@@ -8,12 +8,15 @@ dnspython
 aiohttp
 telethon
 psutil
-motor
+motor==3.6.1
+marshmallow==3.14.1
+umongo==3.1.0
+requests
 telethon
-pymongo[srv]==3.12.3
+#pymongo[srv]==3.12.3
+pymongo==4.9.2
 python-Levenshtein
-git+https://github.com/cinemagoer/cinemagoer
-
+cinemagoer==2023.5.1
 # ====================== 💘❤👩‍💻====================================
 #    ==> P O W E R E D - B Y - 🤞 L A Z Y D E V E L O P E  R        |
 # ==================================================================
